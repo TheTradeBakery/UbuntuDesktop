@@ -3,18 +3,21 @@
   become_method: sudo
   tasks:
   - name: Add non-standard package repositories and signing keys
-      shell: |
-        # Add tailscale package and keys
-        curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/jammy.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
-        curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/jammy.tailscale-keyring.list | sudo tee /etc/apt/sources.list.d/tailscale.list
-        # Add syncthing package and keys 
-        echo "deb https://apt.syncthing.net/ syncthing stable" | sudo tee /etc/apt/sources.list.d/syncthing.list
-        curl -s https://syncthing.net/release-key.txt | sudo apt-key add -
-        # Install Flatpak
-        apt install -Y flatpack
-        apt install gnome-software-plugin-flatpak
-        flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-  - name: Update repositories cache 
+    shell: |
+      # testing multiple shell commands
+      echo "hello"
+      echo "world"
+      # Add tailscale package and keys
+      curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/jammy.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
+      curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/jammy.tailscale-keyring.list | sudo tee /etc/apt/sources.list.d/tailscale.list
+      # Add syncthing package and keys 
+      echo "deb https://apt.syncthing.net/ syncthing stable" | sudo tee /etc/apt/sources.list.d/syncthing.list
+      curl -s https://syncthing.net/release-key.txt | sudo apt-key add -
+      # Install Flatpak
+      apt install -Y flatpack
+      apt install gnome-software-plugin-flatpak
+      flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+- name: Update repositories cache 
     apt:
       name: foo
       update_cache: yes
