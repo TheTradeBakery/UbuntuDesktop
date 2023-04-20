@@ -3,10 +3,8 @@
   become_method: sudo
   tasks:
   - name: Add non-standard package repositories and signing keys
+    register: out
     shell: |
-      # testing multiple shell commands
-      echo "hello"
-      echo "world"
       # Add tailscale package and keys
       curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/jammy.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
       curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/jammy.tailscale-keyring.list | sudo tee /etc/apt/sources.list.d/tailscale.list
@@ -17,6 +15,7 @@
       apt install -Y flatpack
       apt install gnome-software-plugin-flatpak
       flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  - debug: var=out.stdout_lines
   - name: Run the equivalent of "apt-get update" as a separate step
     apt:
       update_cache: yes
