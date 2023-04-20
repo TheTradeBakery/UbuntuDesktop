@@ -17,13 +17,9 @@
       apt install -Y flatpack
       apt install gnome-software-plugin-flatpak
       flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-- name: Update repositories cache 
+  - name: Run the equivalent of "apt-get update" as a separate step
     apt:
-      name: foo
       update_cache: yes
-  - name: Update all packages to the latest version
-    apt:
-      upgrade: dist
   - name: Apt Package Installation
     apt:
       name:
