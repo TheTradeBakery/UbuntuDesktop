@@ -1,7 +1,7 @@
 - hosts: localhost
   become: yes
   become_method: sudo
-  tasks:
+  pre_tasks:
   - name: Add non-standard package repositories and signing keys
     register: out
     shell: |
@@ -22,6 +22,7 @@
   - name: Apt Package Installation
     apt:
       name:
+        - gnome-shell-extension-manager
         - code
         - tailscale
         - syncthing
