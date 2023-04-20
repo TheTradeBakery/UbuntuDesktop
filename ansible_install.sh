@@ -3,3 +3,4 @@ sudo apt install software-properties-common
 sudo add-apt-repository --yes --update ppa:ansible/ansible
 sudo apt install ansible
 ansible-galaxy install jaredhocutt.gnome_extensions
+ansible-playbook --ask-become-pass ubuntu_setup.yaml
