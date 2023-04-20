@@ -1,0 +1,4 @@
+  - name: Snap Package Installation
+    community.general.snap:
+      name:
+        - bitwarden

@@ -1,0 +1,34 @@
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  roles:
+    - role: jaredhocutt.gnome_extensions
+      vars:
+        gnome_extension_ids:
+          - 13   # Applications-menu
+          - 19   # User Themes
+          - 517  # Caffeine
+          - 750  # Openweather
+          - 779  # Clipboard
+          - 841  # Freon (relies on lm_sensors, must run sensors-detect)
+          - 906  # sound-output-device-chooseer
+          - 989  # Syncthing
+          - 1112 # Screenshot Tool
+          - 1152 # emoji selector
+          - 1401 # bluetooth quick connect
+          - 1653 # Tweaks and Extensions in system menu
+          - 3088 # Extensions 
+          - 3396 # Color-picker
+          - 3499 # Application-volume-mixer
+          - 3763 # Battery Status (laptop battery) (% in setting menu)
+          - 3991 # Bluetooth Battery
+          - 4051 # Pi-Hole indicator
+          - 4085 # Big Sur Status Area
+          - 4198 # Dash-to-plank (Does Not Work on WAYLAND)
+          - 4356 # Top Bar Organizer
+          - 4408 # Colored Application Menu Icons
+          - 4442 # gSnap (fancy zones)
+          - 5112 # Tailscale-status
+          - 5165 # Upower Battery
+          - 5281 # Shutdown Button
+

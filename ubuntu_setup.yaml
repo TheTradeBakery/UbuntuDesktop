@@ -1,0 +1,142 @@
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: Add non-standard package repositories and signing keys
+      ansible.builtin.shell: |
+        # Add tailscale package and keys
+        curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/jammy.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
+        curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/jammy.tailscale-keyring.list | sudo tee /etc/apt/sources.list.d/tailscale.list
+        # Add syncthing package and keys 
+        echo "deb https://apt.syncthing.net/ syncthing stable" | sudo tee /etc/apt/sources.list.d/syncthing.list
+        curl -s https://syncthing.net/release-key.txt | sudo apt-key add -
+        # Install Flatpak
+        apt install -Y flatpack
+        apt install gnome-software-plugin-flatpak
+        flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  - name: Update repositories cache 
+    apt:
+      name: foo
+      update_cache: yes
+  - name: Update all packages to the latest version
+    apt:
+      upgrade: dist
+  - name: Apt Package Installation
+    apt:
+      name:
+        - code
+        - tailscale
+        - syncthing
+        - plank
+      state: latest
+  - name: Snap Package Installation
+    community.general.snap:
+      name: pycharm-community
+      classic: true
+  - name: Snap Package Installation
+    community.general.snap:
+      name: pynsource
+  - name: Install .deb from internet
+    ansible.builtin.apt:
+      deb: https://veikk.com/image/catalog/Software/new/vktablet-1.2.3-1-x86_64.deb?v=1672889456
+      deb: https://updates.safing.io/latest/linux_amd64/packages/portmaster-installer.deb
+  - name: Flatpack Package Installation
+    community.general.flatpak:
+      name:
+      # photo
+        - org.gimp.GIMP
+        - com.boxy_svg.BoxySVG
+        - io.github.lainsce.DotMatrix
+        - org.gnome.Shotwell
+      # office
+        - org.libreoffice.LibreOffice
+        - io.github.troyeguo.koodo-reader
+      #productivity
+        - net.daase.journable
+        - com.rafaelmardojai.Blanket
+      # music
+        - com.spotify.Client
+        - org.audacityteam.Audacity
+      # video 
+        - com.obsproject.Studio
+        - com.github.unrud.VideoDownloader
+        - org.kde.kdenlive
+        - com.uploadedlobster.peek
+      # internet 
+        - com.google.Chrome
+        - re.sonny.Tangram
+      # security 
+        - com.belmoussaoui.Authenticator
+        - com.bitwarden.desktop
+        - com.gitlab.davem.ClamTk
+      # Other
+        - com.github.rkoesters.xkcd-gtk
+        - com.usebottles.bottles
+      # utils
+        - com.github.tchx84.Flatseal
+        - io.github.vikdevelop.SaveDesktop
+        - org.linux_hardware.hw-probe
+        - com.github.donadigo.appeditor
+        - io.gitlab.JakobDev.jdSimpleAutostart
+        - io.github.jonmagon.kdiskmark
+        - io.github.realmazharhussain.GdmSettings
+        - com.github.bluesabre.darkbar
+        - org.gnome.Logs
+        - io.emeric.toolblex
+        - com.github.ryonakano.pinit
+        - page.codeberg.JakobDev.jdFlatpakSnapshot
+      # tools
+        - com.diy_fever.DIYLayoutCreator
+        - com.github.phase1geo.minder
+        - com.github.mdh34.quickdocs
+        - de.lernsoftware_filius.Filius
+        - io.dbeaver.DBeaverCommunity
+        - org.fritzing.Fritzing
+        - org.gaphor.Gaphor
+        - com.jgraph.drawio.desktop
+        - org.librepcb.LibrePCB
+        - org.gnome.design.IconLibrary
+        - org.gnome.baobab
+        - re.sonny.Junction
+      # database 
+        - io.dbeaver.DBeaverCommunity
+        - org.sqlitebrowser.sqlitebrowser
+        - io.beekeeperstudio.Studio
+      # programming tools
+        - com.github.Murmele.Gittyup
+        - com.github.arshubham.gitignore
+        - com.github.treagod.spectator
+        - re.sonny.Commit
+      # programing ide
+        - flathub me.iepure.devtoolbox
+        - org.gnome.meld
+  roles:
+  - role: jaredhocutt.gnome_extensions
+    vars:
+      gnome_extension_ids:
+        - 13   # Applications-menu
+        - 19   # User Themes
+        - 517  # Caffeine
+        - 750  # Openweather
+        - 779  # Clipboard
+        - 841  # Freon (relies on lm_sensors, must run sensors-detect)
+        - 906  # sound-output-device-chooseer
+        - 989  # Syncthing
+        - 1112 # Screenshot Tool
+        - 1152 # emoji selector
+        - 1401 # bluetooth quick connect
+        - 1653 # Tweaks and Extensions in system menu
+        - 3088 # Extensions 
+        - 3396 # Color-picker
+        - 3499 # Application-volume-mixer
+        - 3763 # Battery Status (laptop battery) (% in setting menu)
+        - 3991 # Bluetooth Battery
+        - 4051 # Pi-Hole indicator
+        - 4085 # Big Sur Status Area
+        - 4198 # Dash-to-plank (Does Not Work on WAYLAND)
+        - 4356 # Top Bar Organizer
+        - 4408 # Colored Application Menu Icons
+        - 4442 # gSnap (fancy zones)
+        - 5112 # Tailscale-status
+        - 5165 # Upower Battery
+        - 5281 # Shutdown Button
