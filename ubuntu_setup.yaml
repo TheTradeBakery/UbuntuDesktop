@@ -122,8 +122,6 @@
     register: out
     shell: |
       ./test_gnome_bash_script.sh {{ item }}
-    args:
-      executable: /usr/bin/bash
     loop:
       - 13   # Applications-menu
       # - 19   # User Themes

@@ -11,7 +11,7 @@ echo $pretty_name
 wget -O ${uuid}.zip $download_url
     if ! gnome-extensions list | grep --quiet ${uuid}; then
     echo "$USER"
-    busctl call org.gnome.Shell.Extensions /org/gnome/Shell/Extensions org.gnome.Shell.Extensions InstallRemoteExtension s ${uuid}
+    busctl --user call org.gnome.Shell.Extensions /org/gnome/Shell/Extensions org.gnome.Shell.Extensions InstallRemoteExtension s ${uuid}
 fi
 gnome-extensions enable ${uuid}
 rm ${uuid}.zip
