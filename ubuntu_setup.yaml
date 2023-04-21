@@ -28,15 +28,15 @@
         - syncthing
         - plank
       state: latest
-  - name: Snap Package Installation
+  - name: Snap Package Pycharm Installation
     community.general.snap:
       name: pycharm-community
       classic: true
-  - name: Snap Package Installation
+  - name: Snap Package VSCode Installation
     community.general.snap:
       name: code
       classic: true
-  - name: Snap Package Installation
+  - name: Other Snap Packages Installation
     community.general.snap:
       name: 
         - pynsource
