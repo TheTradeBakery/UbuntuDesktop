@@ -134,7 +134,7 @@
       gnome-extensions enable ${uuid}
       rm ${uuid}.zip
     args:
-       executable: /usr/bin/expect
+       executable: /usr/bin/bash
     loop:
       - 13   # Applications-menu
       - 19   # User Themes
