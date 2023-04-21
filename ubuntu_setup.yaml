@@ -42,7 +42,7 @@
         - pynsource
   - name: Install .deb from internet
     ansible.builtin.apt:
-      deb: https://veikk.com/image/catalog/Software/new/vktablet-1.2.3-1-x86_64.deb?v=1672889456
+      deb: https://veikk.com/image/catalog/Software/new/vktablet-1.2.3-1-x86_64.deb
       deb: https://updates.safing.io/latest/linux_amd64/packages/portmaster-installer.deb
   - name: Flatpack Package Installation
     community.general.flatpak:
@@ -112,7 +112,7 @@
         - com.github.treagod.spectator
         - re.sonny.Commit
       # programing ide
-        - flathub me.iepure.devtoolbox
+        - me.iepure.devtoolbox
         - org.gnome.meld
   roles:
   - role: jaredhocutt.gnome_extensions
