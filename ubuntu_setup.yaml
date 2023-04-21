@@ -162,4 +162,4 @@
       - 5112 # Tailscale-status
       - 5165 # Upower Battery
       - 5281 # Shutdown Button
-  - debug: var=out.stdout_lines
+  - debug: var=out.results
