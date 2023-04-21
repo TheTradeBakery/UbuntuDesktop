@@ -28,6 +28,7 @@
         - tailscale
         - syncthing
         - plank
+        - dbus-x11
       state: latest
   - name: Snap Package Pycharm Installation
     community.general.snap:
