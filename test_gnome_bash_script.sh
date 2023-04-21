@@ -11,7 +11,7 @@ echo $pretty_name
 wget -q -O ${uuid}.zip $download_url
     if ! gnome-extensions list | grep --quiet ${uuid}; then
     localuser=$(eval getent passwd {$(awk '/^UID_MIN/ {print $2}' /etc/login.defs)..$(awk '/^UID_MAX/ {print $2}' /etc/login.defs)} | cut -d: -f1)
-    busctl --machine=$localuser@.host --user call org.gnome.Shell.Extensions /org/gnome/Shell/Extensions org.gnome.Shell.Extensions InstallRemoteExtension s ${uuid}
+    busctl --user --machine=$localuser@.host call org.gnome.Shell.Extensions /org/gnome/Shell/Extensions org.gnome.Shell.Extensions InstallRemoteExtension s ${uuid}
 fi
 gnome-extensions enable ${uuid}
 rm ${uuid}.zip
