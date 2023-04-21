@@ -1,0 +1,16 @@
+# You can also use the 'cmd' parameter instead of free form format.
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: This command will change the working directory to somedir
+    register: out
+    shell: |
+      # testing multiple shell commands
+      echo "hello"
+      echo "world"
+      ./test_gnome_bash_script.sh {{ item }}
+    loop:
+      - 1
+      - 2
+  - debug: var=out.results

@@ -115,33 +115,49 @@
       # programing ide
         - me.iepure.devtoolbox
         - org.gnome.meld
-  roles:
-    - role: luyz25.gnome_extensions
-      vars:
-        gnome_extension_ids:
-        - id: 13   # Applications-menu
-        - id: 19   # User Themes
-        - id: 517  # Caffeine
-        - id: 750  # Openweather
-        - id: 779  # Clipboard
-        - id: 841  # Freon (relies on lm_sensors, must run sensors-detect)
-        - id: 906  # sound-output-device-chooseer
-        - id: 989  # Syncthing
-        - id: 1112 # Screenshot Tool
-        - id: 1152 # emoji selector
-        - id: 1401 # bluetooth quick connect
-        - id: 1653 # Tweaks and Extensions in system menu
-        - id: 3088 # Extensions 
-        - id: 3396 # Color-picker
-        - id: 3499 # Application-volume-mixer
-        - id: 3763 # Battery Status (laptop battery) (% in setting menu)
-        - id: 3991 # Bluetooth Battery
-        - id: 4051 # Pi-Hole indicator
-        - id: 4085 # Big Sur Status Area
-        - id: 4198 # Dash-to-plank (Does Not Work on WAYLAND)
-        - id: 4356 # Top Bar Organizer
-        - id: 4408 # Colored Application Menu Icons
-        - id: 4442 # gSnap (fancy zones)
-        - id: 5112 # Tailscale-status
-        - id: 5165 # Upower Battery
-        - id: 5281 # Shutdown Button
+- name: This command will change the working directory to somedir
+    shell: |
+      id={{ item }}
+      gnome_version=$(gnome-shell --version | sed 's/[^0-9.]*\([0-9.]*\).*/\1/')
+      url="https://extensions.gnome.org/extension-info/?pk=${id}&shell_version=${gnome_version}"
+      extension_info=$(curl $url -s)
+      download_url_extension=$(echo $extension_info | grep -o -P '(?<="download_url": ").*(?="})')
+      uuid=$(echo $extension_info | grep -o -P '(?<="uuid": ").*(?=", "name")')
+      pretty_name=$(echo $extension_info | grep -o -P '(?<="name": ").*(?=", "creator")')
+      download_url="https://extensions.gnome.org${download_url_extension}"
+      echo $pretty_name 
+      wget -O ${uuid}.zip $download_url
+          if ! gnome-extensions list | grep --quiet ${uuid}; then
+          busctl --user call org.gnome.Shell.Extensions /org/gnome/Shell/Extensions org.gnome.Shell.Extensions InstallRemoteExtension s ${uuid}
+      fi
+      gnome-extensions enable ${uuid}
+      rm ${uuid}.zip
+    args:
+       executable: /usr/bin/expect
+    loop:
+      - 13   # Applications-menu
+      - 19   # User Themes
+      - 517  # Caffeine
+      - 750  # Openweather
+      - 779  # Clipboard
+      - 841  # Freon (relies on lm_sensors, must run sensors-detect)
+      - 906  # sound-output-device-chooseer
+      - 989  # Syncthing
+      - 1112 # Screenshot Tool
+      - 1152 # emoji selector
+      - 1401 # bluetooth quick connect
+      - 1653 # Tweaks and Extensions in system menu
+      - 3088 # Extensions 
+      - 3396 # Color-picker
+      - 3499 # Application-volume-mixer
+      - 3763 # Battery Status (laptop battery) (% in setting menu)
+      - 3991 # Bluetooth Battery
+      - 4051 # Pi-Hole indicator
+      - 4085 # Big Sur Status Area
+      - 4198 # Dash-to-plank (Does Not Work on WAYLAND)
+      - 4356 # Top Bar Organizer
+      - 4408 # Colored Application Menu Icons
+      - 4442 # gSnap (fancy zones)
+      - 5112 # Tailscale-status
+      - 5165 # Upower Battery
+      - 5281 # Shutdown Button
