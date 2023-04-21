@@ -17,7 +17,7 @@
       apt install gnome-software-plugin-flatpak
       flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
       # get gnome instal script
-      wget https://raw.githubusercontent.com/TheTradeBakery/UbuntuDesktop/main/test_gnome_bash_script.sh && chmod +x test_gnome_bash_script.sh 
+      wget -q https://raw.githubusercontent.com/TheTradeBakery/UbuntuDesktop/main/test_gnome_bash_script.sh && chmod +x test_gnome_bash_script.sh 
   - debug: var=out.stdout_lines
   - name: Run the equivalent of "apt-get update and upgrade" as a separate step
     apt:
