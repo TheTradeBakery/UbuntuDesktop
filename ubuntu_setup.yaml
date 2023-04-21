@@ -150,8 +150,8 @@
       # - 5165 # Upower Battery
       # - 5281 # Shutdown Button
   - debug: var=out.results
-  - name: Add non-standard package repositories and signing keys
-    register: out
-    shell: |
-      rm -f test_gnome_bash_script.sh
-  - debug: var=out.stdout_lines
+  # - name: Add non-standard package repositories and signing keys
+  #   register: out
+  #   shell: |
+  #     rm -f test_gnome_bash_script.sh
+  # - debug: var=out.stdout_lines
