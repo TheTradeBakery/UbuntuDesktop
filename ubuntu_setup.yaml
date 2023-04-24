@@ -34,7 +34,7 @@
         - syncthing
         - plank
         - lm-sensors
-        - gnome-tweeks
+        - gnome-tweaks
         - grub-customizer
       state: latest
   - name: Snap Package Pycharm Installation
