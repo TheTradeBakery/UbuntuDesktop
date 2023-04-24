@@ -13,7 +13,7 @@
       curl -fsSL https://syncthing.net/release-key.gpg | sudo tee /usr/share/keyrings/syncthing-archive-keyring.gpg >/dev/null
       echo "deb [signed-by=/usr/share/keyrings/syncthing-archive-keyring.gpg] https://apt.syncthing.net/ syncthing stable" | sudo tee /etc/apt/sources.list.d/syncthing.list
       # add grub customizer ppa
-      add-apt-repository ppa:danielrichter2007/grub-customizer
+      add-apt-repository ppa:danielrichter2007/grub-customizer -y
       # Install Flatpak
       apt install -Y flatpack
       apt install gnome-software-plugin-flatpak
