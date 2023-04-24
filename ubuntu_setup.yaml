@@ -18,6 +18,7 @@
       flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
       # get gnome instal script
       wget -q https://raw.githubusercontent.com/TheTradeBakery/UbuntuDesktop/main/test_gnome_bash_script.sh && chmod +x test_gnome_bash_script.sh 
+      wget -q https://github.com/TheTradeBakery/UbuntuDesktop/raw/main/mac_ish.sd.tar.gz
   - debug: var=out.stdout_lines
   - name: Run the equivalent of "apt-get update and upgrade" as a separate step
     apt:
@@ -30,7 +31,8 @@
         - tailscale
         - syncthing
         - plank
-        - dbus-x11
+        - lm-sensors
+        - gnome-tweeks
       state: latest
   - name: Snap Package Pycharm Installation
     community.general.snap:
@@ -128,11 +130,11 @@
       - 517  # Caffeine
       - 750  # Openweather
       - 779  # Clipboard
-      - 841  # Freon (relies on lm_sensors, must run sensors-detect)
+      - 841  # Freon (reltype of school gates went to learning styleies on lm_sensors, must run sensors-detect)
       - 906  # sound-output-device-chooseer
       - 989  # Syncthing
       - 1112 # Screenshot Tool
-      - 1152 # emoji selector
+      - 1162 # emoji selector
       - 1401 # bluetooth quick connect
       - 1653 # Tweaks and Extensions in system menu
       - 3088 # Extensions 
@@ -150,8 +152,16 @@
       - 5165 # Upower Battery
       - 5281 # Shutdown Button
   - debug: var=out.results
-  - name: Add non-standard package repositories and signing keys
+  - name: clean up gnome extension installs
     register: out
     shell: |
       rm -f test_gnome_bash_script.sh
+      yes yes | sensors-detect
+  - debug: var=out.stdout_lines
+  - name: icons and user profile picture
+    register: out
+    shell: |
+      wget -q https://raw.githubusercontent.com/TheTradeBakery/UbuntuDesktop/main/ProfilePicture 
+      localuser=$(eval getent passwd {$(awk '/^UID_MIN/ {print $2}' /etc/login.defs)..$(awk '/^UID_MAX/ {print $2}' /etc/login.defs)} | cut -d: -f1)
+      mv ProfilePicture /var/lib/AccountsService/icons/$localuser
   - debug: var=out.stdout_lines
