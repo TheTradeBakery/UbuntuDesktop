@@ -12,6 +12,8 @@
       # Add syncthing package and keys
       curl -fsSL https://syncthing.net/release-key.gpg | sudo tee /usr/share/keyrings/syncthing-archive-keyring.gpg >/dev/null
       echo "deb [signed-by=/usr/share/keyrings/syncthing-archive-keyring.gpg] https://apt.syncthing.net/ syncthing stable" | sudo tee /etc/apt/sources.list.d/syncthing.list
+      # add grub customizer ppa
+      add-apt-repository ppa:danielrichter2007/grub-customizer
       # Install Flatpak
       apt install -Y flatpack
       apt install gnome-software-plugin-flatpak
@@ -33,6 +35,7 @@
         - plank
         - lm-sensors
         - gnome-tweeks
+        - grub-customizer
       state: latest
   - name: Snap Package Pycharm Installation
     community.general.snap:
@@ -108,6 +111,7 @@
         - org.gnome.design.IconLibrary
         - org.gnome.baobab
         - re.sonny.Junction
+        - org.raspberrypi.rpi-imager
       # database 
         - io.dbeaver.DBeaverCommunity
         - org.sqlitebrowser.sqlitebrowser
@@ -162,12 +166,16 @@
     register: out
     shell: |
       # download and set user profile picture
-      wget -q https://raw.githubusercontent.com/TheTradeBakery/UbuntuDesktop/main/ProfilePicture 
+      wget -q https://raw.githubusercontent.com/TheTradeBakery/UbuntuDesktop/main/ProfilePicture && chmod +x ProfilePicture
       localuser=$(eval getent passwd {$(awk '/^UID_MIN/ {print $2}' /etc/login.defs)..$(awk '/^UID_MAX/ {print $2}' /etc/login.defs)} | cut -d: -f1)
       mv ProfilePicture /var/lib/AccountsService/icons/$localuser
       # set icon back and theme
-      wget -q https://raw.githubusercontent.com/TheTradeBakery/UbuntuDesktop/main/Icons.tar.xz
-      tar -xf Icons.tar.xz -C /usr/share/icons/ 
-      wget -q https://raw.githubusercontent.com/TheTradeBakery/UbuntuDesktop/main/Theme.tar.xz
-      tar -xf Theme.tar.xz -C /usr/share/themes/
+      wget -q https://raw.githubusercontent.com/TheTradeBakery/UbuntuDesktop/main/Icons.tar.xz && chmod +x Icons.tar.xz
+      tar -xf Icons.tar.xz -C /usr/share/icons/ && rm -f Icons.tar.xz
+      wget -q https://raw.githubusercontent.com/TheTradeBakery/UbuntuDesktop/main/Theme.tar.xz && chmod +x Theme.tar.xz
+      tar -xf Theme.tar.xz -C /usr/share/themes/ && rm -f Theme.tar.xz
+      flatpak override --filesystem=$HOME/.themes
+      flatpak override --filesystem=$HOME/.icons
+      flatpak override --env=GTK_THEME=WhiteSure-dark-solid
+      flatpak override --env=ICON_THEME=WhiteSur-dark
   - debug: var=out.stdout_lines
