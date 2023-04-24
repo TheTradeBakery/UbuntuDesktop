@@ -161,7 +161,13 @@
   - name: icons and user profile picture
     register: out
     shell: |
+      # download and set user profile picture
       wget -q https://raw.githubusercontent.com/TheTradeBakery/UbuntuDesktop/main/ProfilePicture 
       localuser=$(eval getent passwd {$(awk '/^UID_MIN/ {print $2}' /etc/login.defs)..$(awk '/^UID_MAX/ {print $2}' /etc/login.defs)} | cut -d: -f1)
       mv ProfilePicture /var/lib/AccountsService/icons/$localuser
+      # set icon back and theme
+      wget -q https://raw.githubusercontent.com/TheTradeBakery/UbuntuDesktop/main/Icons.tar.xz
+      tar -xf Icons.tar.xz -C /usr/share/icons/ 
+      wget -q https://raw.githubusercontent.com/TheTradeBakery/UbuntuDesktop/main/Theme.tar.xz
+      tar -xf Theme.tar.xz -C /usr/share/themes/
   - debug: var=out.stdout_lines
