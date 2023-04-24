@@ -178,4 +178,6 @@
       flatpak override --filesystem=$HOME/.icons
       flatpak override --env=GTK_THEME=WhiteSure-dark-solid
       flatpak override --env=ICON_THEME=WhiteSur-dark
+    args:
+      executable: /usr/bin/bash
   - debug: var=out.stdout_lines
